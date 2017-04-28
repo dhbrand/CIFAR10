@@ -32,7 +32,7 @@ def mlp_layer(X, n_in, n_out, scope, name_postfix = None, act_func=None):
     else:
         activation = tf.add(tf.matmul(X, W), B, name=scope.name)
     #reports full activation spectrum
-    #tf.summary.histogram('{}/activations'.format(scope.name), activation)
+    tf.summary.histogram('{}/activations'.format(scope.name), activation)
     #reports fraction of zeros (dead neurons) in activation
     tf.summary.scalar('{}/sparsity'.format(scope.name), tf.nn.zero_fraction(activation))
     return activation

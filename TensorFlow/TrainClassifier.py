@@ -9,6 +9,9 @@ import time
 import Vgg9CIFAR10
 import CONSTANTS
 import Inputs
+from scipy import misc
+import matplotlib.pyplot as plt
+import numpy as np
 #from tensorflow.python import debug as tf_debug
 
 def gradients_summary(gradients):
@@ -35,9 +38,9 @@ def create_sess_ops():
         OPTIMIZER = tf.train.AdamOptimizer(CONSTANTS.LEARNING_RATE)
         gradients = OPTIMIZER.compute_gradients(loss)
         apply_gradient_op = OPTIMIZER.apply_gradients(gradients)
-        #gradients_summary(gradients)
+        gradients_summary(gradients)
         summaries_op = tf.summary.merge_all()
-        return [apply_gradient_op, summaries_op, loss, logits], GRAPH
+        return [apply_gradient_op, summaries_op, loss, logits, examples, labels], GRAPH
 
 def main():
     '''
@@ -52,7 +55,6 @@ def main():
         #     SESSION.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)
         COORDINATOR = tf.train.Coordinator()
         THREADS = tf.train.start_queue_runners(SESSION, COORDINATOR)
-        SESSION.run(tf.local_variables_initializer()) #added to try to deal with out of data problem
         SESSION.run(tf.global_variables_initializer())
         SUMMARY_WRITER = tf.summary.FileWriter('Tensorboard/CIFAR_10')
         GRAPH_SAVER = tf.train.Saver()
@@ -62,7 +64,12 @@ def main():
             error = 0.0
             start_time = time.time()
             for batch in range(CONSTANTS.MINI_BATCHES):
-                _, summaries, cost_val, prediction = SESSION.run(ops)
+                _, summaries, cost_val, prediction, examples, labels = SESSION.run(ops)
+                # print(np.where(np.isnan(prediction)))
+                # print(prediction[0])
+                # print(labels[0])
+                # plt.imshow(examples[0])       
+                # plt.show()         
                 error += cost_val
             duration += time.time() - start_time
             total_duration += duration

@@ -40,7 +40,7 @@ def read_image_to_bytestring(path):
     Reads an image from a path and converts it
     to a flattened byte string
     '''
-    img = misc.imread(path).astype(np.float32)
+    img = misc.imread(path).astype(np.float32) / 255.0
     return img.reshape(CONSTANTS.IMAGE_SHAPE).flatten().tostring()
 
 def write_records_from_file(labels_file, dest_folder, num_records):

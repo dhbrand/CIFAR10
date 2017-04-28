@@ -11,10 +11,10 @@ NUM_CLASSES = 10
 
 INPUT_PIPELINE_THREADS = 2
 #batch size * minibatches = # samples in data set or greater.
-BATCH_SIZE = 100
+BATCH_SIZE = 1000
 MINI_BATCHES = 50
-EPOCHS = 10
-LEARNING_RATE = 1e-6
+EPOCHS = 100
+LEARNING_RATE = 1e-3
 N_CLASSES = 10
 
 r_bdir = 'C:/data/cifar_10/tfrecords/'

@@ -20,7 +20,6 @@ def read_and_decode(filename_queue, image_shape):
     img_sample = tf.decode_raw(features['example'], tf.float32)
     img_sample = tf.reshape(img_sample, image_shape)
     label = tf.cast(features['label'], tf.int64)
-    time.sleep(5)
     return img_sample, label
 
 def read_inputs(file_paths, batch_size, capacity=1000, min_after_dequeue=900, num_threads=2, img_shape=None):
