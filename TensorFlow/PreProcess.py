@@ -62,7 +62,8 @@ def write_records_from_file(labels_file, dest_folder, num_records):
         start_idx += ex_per_rec
         print('wrote record: ', i)
     final_rec_path = dest_folder + str(num_records) + '.tfrecords'
+    write_record(final_rec_path, labels.loc[ex_per_rec * (num_records - 1):].reset_index())
     print('wrote record: ', num_records)
     print('finished writing records...')
-    write_record(final_rec_path, labels.loc[ex_per_rec * (num_records - 1):].reset_index())
+    
 

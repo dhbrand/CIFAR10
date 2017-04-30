@@ -9,12 +9,12 @@ DEBUG = True
 IMAGE_SHAPE = (32, 32, 3)
 NUM_CLASSES = 10
 
-INPUT_PIPELINE_THREADS = 2
+INPUT_PIPELINE_THREADS = 16
 #batch size * minibatches = # samples in data set or greater.
 BATCH_SIZE = 1000
 MINI_BATCHES = 50
-EPOCHS = 100
-LEARNING_RATE = 1e-3
+EPOCHS = 1000
+LEARNING_RATE = 1e-4
 N_CLASSES = 10
 
 r_bdir = 'C:/data/cifar_10/tfrecords/'

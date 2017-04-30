@@ -7,6 +7,7 @@ Copyright Microsoft Corporation 2017
 import tensorflow as tf
 import time
 import Vgg9CIFAR10
+import Vgg3CIFAR10
 import CONSTANTS
 import Inputs
 from scipy import misc
@@ -36,15 +37,16 @@ def create_sess_ops():
         logits = Vgg9CIFAR10.inference(examples)
         loss = Vgg9CIFAR10.loss(logits, labels)
         OPTIMIZER = tf.train.AdamOptimizer(CONSTANTS.LEARNING_RATE)
+        #OPTIMIZER = tf.train.RMSPropOptimizer(CONSTANTS.LEARNING_RATE)
         gradients = OPTIMIZER.compute_gradients(loss)
         apply_gradient_op = OPTIMIZER.apply_gradients(gradients)
         gradients_summary(gradients)
         summaries_op = tf.summary.merge_all()
-        return [apply_gradient_op, summaries_op, loss, logits, examples, labels], GRAPH
+        return [apply_gradient_op, summaries_op, loss, logits], GRAPH
 
 def main():
     '''
-    Run and Train the VGG9 Network on CIFAR 10
+    Run and Train CIFAR 10
     '''
     print('starting...')
     ops, GRAPH = create_sess_ops()
@@ -56,7 +58,7 @@ def main():
         COORDINATOR = tf.train.Coordinator()
         THREADS = tf.train.start_queue_runners(SESSION, COORDINATOR)
         SESSION.run(tf.global_variables_initializer())
-        SUMMARY_WRITER = tf.summary.FileWriter('Tensorboard/CIFAR_10')
+        SUMMARY_WRITER = tf.summary.FileWriter('Tensorboard/CIFAR_10_VGG9_50neuron_1pool_1e-4lr_adam')
         GRAPH_SAVER = tf.train.Saver()
 
         for EPOCH in range(CONSTANTS.EPOCHS):
@@ -64,7 +66,7 @@ def main():
             error = 0.0
             start_time = time.time()
             for batch in range(CONSTANTS.MINI_BATCHES):
-                _, summaries, cost_val, prediction, examples, labels = SESSION.run(ops)
+                _, summaries, cost_val, prediction = SESSION.run(ops)
                 # print(np.where(np.isnan(prediction)))
                 # print(prediction[0])
                 # print(labels[0])
@@ -80,7 +82,7 @@ def main():
                     'Done training for %d epochs. (%.3f sec)' % (EPOCH, total_duration)
                 )
                 break
-        GRAPH_SAVER.save(SESSION, 'models/cifar10_vgg9.model')
+        GRAPH_SAVER.save(SESSION, 'models/cifar10_vgg9_rmsprop.model')
         COORDINATOR.request_stop()
         COORDINATOR.join(THREADS)
 
