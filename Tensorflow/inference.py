@@ -13,7 +13,7 @@ MODEL_PATH = 'models/' + CONSTANTS.MODEL_NAME + '.model'
 imgs_bsdir = 'C:/data/cifar_10/train/'
 
 images = tf.placeholder(tf.float32, shape=(1, 32, 32, 3))
-with open('models/vgg3.pkl', 'rb') as model_in:
+with open('models/' + CONSTANTS.MODEL_NAME + '.pkl', 'rb') as model_in:
     model = pickle.load(model_in)
 logits = model.inference(images)
 
