@@ -1,0 +1,4 @@
+TensorFlow/Tensorboard/
+TensorFlow/__pycache__/
+TensorFlow/models/
+TensorFlow/.ipynb_checkpoints/

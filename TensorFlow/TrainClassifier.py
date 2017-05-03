@@ -6,14 +6,15 @@ Copyright Microsoft Corporation 2017
 
 import tensorflow as tf
 import time
-import Vgg9CIFAR10
-import Vgg3CIFAR10
+import Vgg3CIFAR10 as vgg3
 import CONSTANTS
 import Inputs
 from scipy import misc
 import matplotlib.pyplot as plt
 import numpy as np
-#from tensorflow.python import debug as tf_debug
+import pickle
+
+model = vgg3.Vgg3Model()
 
 def gradients_summary(gradients):
     for grad, var in gradients:
@@ -32,12 +33,10 @@ def create_sess_ops():
                                               batch_size=CONSTANTS.BATCH_SIZE,
                                               img_shape=CONSTANTS.IMAGE_SHAPE,
                                               num_threads=CONSTANTS.INPUT_PIPELINE_THREADS)
-        examples = tf.reshape(examples, [CONSTANTS.BATCH_SIZE, CONSTANTS.IMAGE_SHAPE[0],
-                                         CONSTANTS.IMAGE_SHAPE[1], CONSTANTS.IMAGE_SHAPE[2]])
-        logits = Vgg9CIFAR10.inference(examples)
-        loss = Vgg9CIFAR10.loss(logits, labels)
+        examples = tf.reshape(examples, [-1, CONSTANTS.IMAGE_SHAPE[0], CONSTANTS.IMAGE_SHAPE[1], CONSTANTS.IMAGE_SHAPE[2]])
+        logits = model.inference(examples)
+        loss = model.loss(logits, labels)
         OPTIMIZER = tf.train.AdamOptimizer(CONSTANTS.LEARNING_RATE)
-        #OPTIMIZER = tf.train.RMSPropOptimizer(CONSTANTS.LEARNING_RATE)
         gradients = OPTIMIZER.compute_gradients(loss)
         apply_gradient_op = OPTIMIZER.apply_gradients(gradients)
         gradients_summary(gradients)
@@ -52,13 +51,10 @@ def main():
     ops, GRAPH = create_sess_ops()
     total_duration = 0.0
     with tf.Session(graph=GRAPH) as SESSION:
-        # if CONSTANTS.DEBUG:
-        #     SESSION = tf_debug.LocalCLIDebugWrapperSession(SESSION)
-        #     SESSION.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)
         COORDINATOR = tf.train.Coordinator()
         THREADS = tf.train.start_queue_runners(SESSION, COORDINATOR)
         SESSION.run(tf.global_variables_initializer())
-        SUMMARY_WRITER = tf.summary.FileWriter('Tensorboard/CIFAR_10_VGG9_50neuron_1pool_1e-4lr_adam')
+        SUMMARY_WRITER = tf.summary.FileWriter('Tensorboard/' + CONSTANTS.MODEL_NAME, graph=GRAPH)
         GRAPH_SAVER = tf.train.Saver()
 
         for EPOCH in range(CONSTANTS.EPOCHS):
@@ -67,11 +63,6 @@ def main():
             start_time = time.time()
             for batch in range(CONSTANTS.MINI_BATCHES):
                 _, summaries, cost_val, prediction = SESSION.run(ops)
-                # print(np.where(np.isnan(prediction)))
-                # print(prediction[0])
-                # print(labels[0])
-                # plt.imshow(examples[0])       
-                # plt.show()         
                 error += cost_val
             duration += time.time() - start_time
             total_duration += duration
@@ -82,7 +73,9 @@ def main():
                     'Done training for %d epochs. (%.3f sec)' % (EPOCH, total_duration)
                 )
                 break
-        GRAPH_SAVER.save(SESSION, 'models/cifar10_vgg9_rmsprop.model')
+        GRAPH_SAVER.save(SESSION, 'models/' + CONSTANTS.MODEL_NAME + '.model')
+        with open('models/' + CONSTANTS.MODEL_NAME + '.pkl', 'wb') as output:
+            pickle.dump(model, output)
         COORDINATOR.request_stop()
         COORDINATOR.join(THREADS)
 
