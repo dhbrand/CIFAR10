@@ -17,17 +17,17 @@ class Vgg3Model:
         '''
         Portion of the compute graph that takes an input and converts it into a Y output
         '''
-        with tf.variable_scope('infer/Conv1') as scope:
+        with tf.variable_scope('Conv1') as scope:
             C_1_1 = ld.cnn_layer(images, (5, 5, 3, 32), (1, 1, 1, 1), scope, name_postfix='1')
             C_1_2 = ld.cnn_layer(C_1_1, (5, 5, 32, 32), (1, 1, 1, 1), scope, name_postfix='2')
             P_1 = ld.pool_layer(C_1_2, (1, 2, 2, 1), (1, 2, 2, 1), scope)
-        with tf.variable_scope('infer/Dense1') as scope:
+        with tf.variable_scope('Dense1') as scope:
             P_1 = tf.reshape(P_1, (-1, self.DENSE_RESHAPE))
             dim = P_1.get_shape()[1].value
             D_1 = ld.mlp_layer(P_1, dim, self.NUM_DENSE_NEURONS, scope, act_func=tf.nn.relu)
-        with tf.variable_scope('infer/Dense2') as scope:
+        with tf.variable_scope('Dense2') as scope:
             D_2 = ld.mlp_layer(D_1, self.NUM_DENSE_NEURONS, CONSTANTS.NUM_CLASSES, scope)
-        H = tf.nn.softmax(D_2, name='infer/prediction')
+        H = tf.nn.softmax(D_2, name='prediction')
         return H
 
     def loss(self, logits, labels):
