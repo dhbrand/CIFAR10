@@ -14,7 +14,6 @@ class Vgg9Model:
     '''
 
     NUM_DENSE_NEURONS = 50
-    DENSE_RESHAPE = 32 * (CONSTANTS.IMAGE_SHAPE[0] // 2) * (CONSTANTS.IMAGE_SHAPE[1] // 2)
 
     def inference(images):
         '''
