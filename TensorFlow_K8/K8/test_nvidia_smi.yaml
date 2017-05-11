@@ -2,12 +2,12 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   labels:
-    app: tensorflow-trainer
-  name: tensorflow-trainer
+    app: test-nvidia-smi
+  name: test-nvidia-smi
 spec:
   template:
     metadata:
-      name: tensorflow-trainer
+      name: test-nvidia-smi
     spec:
       volumes:
       - name: binaries
@@ -18,9 +18,9 @@ spec:
           path: /usr/lib/x86_64-linux-gnu_custom
       containers:
       - command: ["/bin/sh", "-c"]
-        args: ["export LD_LIBRARY_PATH='/usr/lib/x86_64-linux-gnu_custom:$LD_LIBRARY_PATH'; python /app/TensorFlow_K8/TrainClassifier.py"]
+        args: ["export LD_LIBRARY_PATH='/usr/lib/x86_64-linux-gnu_custom:$LD_LIBRARY_PATH'; nvidia-smi"]
         image: drcrook/cifar10:gpu
-        name: tensorflow-cifar10-train
+        name: test-nvidia-smi
         env:
         - name: STORAGE_ACCOUNT_NAME
           value: dasciencefiles
