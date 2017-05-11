@@ -15,7 +15,7 @@ spec:
           path: /usr/bin/
       - name: libraries
         hostPath:
-          path: /usr/lib/x86_64-linux-gnu_custom
+          path: /usr/lib/x86_64-linux-gnu
       containers:
       - command: ["/bin/sh", "-c"]
         args: ["export LD_LIBRARY_PATH='/usr/lib/x86_64-linux-gnu_custom:$LD_LIBRARY_PATH'; python /app/TensorFlow_K8/TrainClassifier.py"]
