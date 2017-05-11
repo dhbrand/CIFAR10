@@ -20,6 +20,7 @@ spec:
       - command: ["/bin/sh", "-c"]
         args: ["export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu_custom:$LD_LIBRARY_PATH; python /app/TensorFlow_K8/TrainClassifier.py"]
         image: drcrook/cifar10:gpu
+        imagePullPolicy: Always
         name: tensorflow-cifar10-train
         env:
         - name: STORAGE_ACCOUNT_NAME
