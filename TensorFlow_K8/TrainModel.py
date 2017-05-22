@@ -53,7 +53,7 @@ def main():
         COORDINATOR = tf.train.Coordinator()
         THREADS = tf.train.start_queue_runners(SESSION, COORDINATOR)
         SESSION.run(tf.global_variables_initializer())
-        SUMMARY_WRITER = tf.summary.FileWriter(CONSTANTS.mounted_basedir + 'Tensorboard/' + CONSTANTS.MODEL_NAME, graph=GRAPH)
+        SUMMARY_WRITER = tf.summary.FileWriter(CONSTANTS.mounted_tboard_dir + CONSTANTS.MODEL_NAME, graph=GRAPH)
         GRAPH_SAVER = tf.train.Saver()
 
         for EPOCH in range(CONSTANTS.EPOCHS):
@@ -76,7 +76,7 @@ def main():
                 GRAPH_SAVER.save(SESSION, CONSTANTS.mounted_basedir + 'models/' + CONSTANTS.MODEL_NAME + '.model')
                 with open(CONSTANTS.mounted_basedir + 'models/' + CONSTANTS.MODEL_NAME + '.pkl', 'wb') as output:
                     pickle.dump(model, output)
-        GRAPH_SAVER.save(SESSION, CONSTANTS.mounted_basedir + 'models/' + CONSTANTS.MODEL_NAME + '.model')
+        GRAPH_SAVER.save(SESSION, CONSTANTS.mounted_basedir + 'models/' + CONSTANTS.MODEL_NAME + '_final.model')
         with open(CONSTANTS.mounted_basedir + 'models/' + CONSTANTS.MODEL_NAME + '.pkl', 'wb') as output:
             pickle.dump(model, output)
         COORDINATOR.request_stop()

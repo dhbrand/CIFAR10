@@ -4,18 +4,18 @@ Author: David Crook
 Copyright Microsoft Corporation 2017
 """
 
-MODEL_NAME = "CIFAR_10_VGG3_50neuron_1pool_33_55_filters_1e-3lr_adam"
+MODEL_NAME = "TEST-THIS-THING"
 
 DEBUG = True
 
 IMAGE_SHAPE = (32, 32, 3)
 NUM_CLASSES = 10
 
-INPUT_PIPELINE_THREADS = 16
+INPUT_PIPELINE_THREADS = 6
 #batch size * minibatches = # samples in data set or greater.
-BATCH_SIZE = 1000
-MINI_BATCHES = 50
-EPOCHS = 100
+BATCH_SIZE = 500
+MINI_BATCHES = 10
+EPOCHS = 50
 LEARNING_RATE = 1e-3
 N_CLASSES = 10
 
