@@ -4,7 +4,7 @@ Author: David Crook
 Copyright Microsoft Corporation 2017
 """
 
-MODEL_NAME = "Image_Classify_m_vgg3_lr_1e-4_adam"
+MODEL_NAME = "Image_Classify_m_vgg3_3conv_lr_1e-8_adam"
 
 DEBUG = True
 
@@ -17,7 +17,7 @@ BATCH_SIZE = 5000
 MINI_BATCHES = 10
 EPOCHS = 200
 CHECKPOINT_EPOCHS = 25
-LEARNING_RATE = 1e-4
+LEARNING_RATE = 1e-8
 N_CLASSES = 10
 
 mounted_basedir = '/data/cifar10/'

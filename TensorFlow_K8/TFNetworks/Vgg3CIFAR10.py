@@ -20,7 +20,8 @@ class Vgg3Model:
         with tf.variable_scope('Conv1') as scope:
             C_1_1 = ld.cnn_layer(images, (3, 3, 3, 32), (1, 1, 1, 1), scope, name_postfix='1')
             C_1_2 = ld.cnn_layer(C_1_1, (5, 5, 32, 32), (1, 1, 1, 1), scope, name_postfix='2')
-            P_1 = ld.pool_layer(C_1_2, (1, 2, 2, 1), (1, 2, 2, 1), scope)
+            C_1_3 = ld.cnn_layer(C_1_2, (5, 5, 32, 32), (1, 1, 1, 1), scope, name_postfix='3')
+            P_1 = ld.pool_layer(C_1_3, (1, 2, 2, 1), (1, 2, 2, 1), scope)
         with tf.variable_scope('Dense1') as scope:
             P_1 = tf.reshape(P_1, (-1, self.DENSE_RESHAPE))
             dim = P_1.get_shape()[1].value

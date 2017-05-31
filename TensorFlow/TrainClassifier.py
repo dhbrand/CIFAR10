@@ -12,7 +12,7 @@ import Inputs
 from scipy import misc
 import matplotlib.pyplot as plt
 import numpy as np
-import pickle
+import dill
 
 model = vgg3.Vgg3Model()
 
@@ -75,7 +75,7 @@ def main():
                 break
         GRAPH_SAVER.save(SESSION, 'models/' + CONSTANTS.MODEL_NAME + '.model')
         with open('models/' + CONSTANTS.MODEL_NAME + '.pkl', 'wb') as output:
-            pickle.dump(model, output)
+            dill.dump(model, output)
         COORDINATOR.request_stop()
         COORDINATOR.join(THREADS)
 

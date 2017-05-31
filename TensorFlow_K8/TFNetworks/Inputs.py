@@ -5,6 +5,7 @@ Copyright Microsoft Corporation 2017
 """
 
 import tensorflow as tf
+import CONSTANTS
 import time
 
 def read_and_decode(filename_queue, image_shape):
