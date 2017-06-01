@@ -1,0 +1,8 @@
+{
+    "resource-group" : "skynetstorage",
+    "region" : "southcentralus",
+    "storage-account" : "skynetstorage2",
+    "storage-container-name" : "pachyderm",
+    "storage-disk-name" : "pach-disk.vhd",
+    "storage-size" : 100
+}

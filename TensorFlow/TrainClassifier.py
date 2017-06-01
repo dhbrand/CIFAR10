@@ -6,15 +6,16 @@ Copyright Microsoft Corporation 2017
 
 import tensorflow as tf
 import time
-import Vgg3CIFAR10 as vgg3
+from cifar10_model import cifar10_model
 import CONSTANTS
 import Inputs
 from scipy import misc
 import matplotlib.pyplot as plt
 import numpy as np
 import dill
+from shutil import copyfile
 
-model = vgg3.Vgg3Model()
+model = cifar10_model()
 
 def gradients_summary(gradients):
     for grad, var in gradients:
@@ -74,8 +75,7 @@ def main():
                 )
                 break
         GRAPH_SAVER.save(SESSION, 'models/' + CONSTANTS.MODEL_NAME + '.model')
-        with open('models/' + CONSTANTS.MODEL_NAME + '.pkl', 'wb') as output:
-            dill.dump(model, output)
+        copyfile('cifar10_model.py', 'models/cifar10_model.py')
         COORDINATOR.request_stop()
         COORDINATOR.join(THREADS)
 

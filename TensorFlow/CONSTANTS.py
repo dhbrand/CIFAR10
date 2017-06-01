@@ -4,7 +4,7 @@ Author: David Crook
 Copyright Microsoft Corporation 2017
 """
 
-MODEL_NAME = "TEST-THIS-THING"
+MODEL_NAME = "cifar10_prod"
 
 DEBUG = True
 
@@ -15,7 +15,7 @@ INPUT_PIPELINE_THREADS = 6
 #batch size * minibatches = # samples in data set or greater.
 BATCH_SIZE = 500
 MINI_BATCHES = 10
-EPOCHS = 50
+EPOCHS = 5
 LEARNING_RATE = 1e-3
 N_CLASSES = 10
 

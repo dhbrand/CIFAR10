@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: jupyter
+  name: jupyter
+spec:
+  ports:
+  - port: 80
+    targetPort: 8888
+  selector:
+    app: jupyter
+  type: LoadBalancer
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: jupyter
+  name: jupyter
+spec:
+  template:
+    metadata:
+      labels:
+        app: jupyter
+    spec:
+      volumes:
+      - name: cifar10data
+        azureFile:
+            secretName: azure-secret
+            shareName: cifar10
+            readOnly: false   
+      - name: imagesystemsdata
+        azureFile:
+            secretName: azure-secret
+            shareName: imagesystems
+            readOnly: false
+      - name: t101data
+        azureFile:
+            secretName: azure-secret
+            shareName: t101
+            readOnly: false
+      containers:
+      - name: jupyter
+        image: gcr.io/tensorflow/tensorflow:latest
+        ports:
+        - containerPort: 8888
+        volumeMounts:
+        - mountPath: "/cifar10"
+          name: cifar10data
+        - mountPath: "/imagesystems"
+          name: imagesystemsdata
+        - mountPath: "/t101"
+          name: t101data          

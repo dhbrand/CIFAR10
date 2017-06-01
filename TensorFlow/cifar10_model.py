@@ -6,12 +6,14 @@ Copyright Microsoft Corporation 2017
 
 import tensorflow as tf
 import LayerDefinitions as ld
-import CONSTANTS
 
-class Vgg3Model:
+IMAGE_SHAPE = (32, 32, 3)
+NUM_CLASSES = 10
+
+class cifar10_model:
 
     NUM_DENSE_NEURONS = 50
-    DENSE_RESHAPE = 32 * (CONSTANTS.IMAGE_SHAPE[0] // 2) * (CONSTANTS.IMAGE_SHAPE[1] // 2)
+    DENSE_RESHAPE = 32 * (IMAGE_SHAPE[0] // 2) * (IMAGE_SHAPE[1] // 2)
 
     def inference(self, images):
         '''
@@ -26,7 +28,7 @@ class Vgg3Model:
             dim = P_1.get_shape()[1].value
             D_1 = ld.mlp_layer(P_1, dim, self.NUM_DENSE_NEURONS, scope, act_func=tf.nn.relu)
         with tf.variable_scope('Dense2') as scope:
-            D_2 = ld.mlp_layer(D_1, self.NUM_DENSE_NEURONS, CONSTANTS.NUM_CLASSES, scope)
+            D_2 = ld.mlp_layer(D_1, self.NUM_DENSE_NEURONS, NUM_CLASSES, scope)
         H = tf.nn.softmax(D_2, name='prediction')
         return H
 

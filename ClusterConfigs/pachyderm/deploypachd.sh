@@ -1,0 +1,1 @@
+pachctl deploy microsoft pachyderm skynetstorage2 WEYNNj8Qe4PbDcxpBjfCq0fqFYZCtQ4fV2ouyknIXSQVW4EsOwSOmJglmxngyARZ3hMAqkkIYgmMx89rLYCMLA== 100 --dynamic-etcd-nodes 1
