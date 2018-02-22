@@ -7,15 +7,14 @@ import PreProcess
 import pandas as pd
 
 #location to drop the processed label file used for creating TF Records
-LABELS_FILE = 'C:/data/cifar_10/proc_train_labels.csv'
 #base directory to drop tf records for training
-TF_REC_DEST = 'C:/data/cifar_10/tfrecords/'
+TF_REC_DEST = 'DL/tfrecords/'
 #Where the current CIFAR 10 labels file exists
-labels_file = 'C:/data/cifar_10/trainLabels.csv'
+labels_file = 'morphLabels.csv'
 #Where the images are stored
-base_imgs_dir = 'C:/data/cifar_10/train/'
+base_imgs_dir = 'morph/images/'
 #Where to drop the dictionary for converting node index to label string
-conversion_dict_path = 'C:/data/cifar_10/proc_train_classes_dictionary.csv'
+conversion_dict_path = './proc_train_classes_dictionary.csv'
 
 def create_fqp_lbl_file():
     labels = pd.read_csv(labels_file, dtype={'id': object})
